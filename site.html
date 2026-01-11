@@ -5,121 +5,7 @@
 <title>Resul Bet</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-*{
-  box-sizing:border-box;
-}
-<div id="bottomMenu">
-  <div class="menuItem">🏠 Ana Sayfa</div>
-  <div class="menuItem">🎟 Kupon</div>
-  <div class="menuItem">👤 Profil</div>
-</div>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0b1c2d;
-  color:white;
-  text-align:center;
-  padding-top:60px;
-  padding-bottom:80px;
-}
-
-/* ÜST BAR */
-header{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  height:60px;
-  background:#020617;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 15px;
-  z-index:10;
-}
-
-/* MAÇ KARTI */
-.match{
-  background:#142c44;
-  margin:15px auto;
-  padding:15px;
-  width:90%;
-  max-width:360px;
-  border-radius:12px;
-}
-
-/* BUTON */
-button{
-  width:100%;
-  padding:12px;
-  margin:6px 0;
-  background:#16a34a;
-  color:white;
-  border:none;
-  border-radius:8px;
-  font-size:16px;
-}
-
-/* ALT MENÜ */
-#bottomMenu{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:65px;
-  background:#020617;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  border-top:2px solid #16a34a;
-}
-
-.menuItem{
-  font-size:14px;
-  color:#22c55e;
-}
-</style>
-}
-
-header{
-  background:#020617;
-  padding:15px;
-}
-
-.match{
-  background:#142c44;
-  margin:15px auto;
-  padding:15px;
-  width:300px;
-  border-radius:10px;
-}
-
-button{
-  width:100%;
-  padding:10px;
-  margin:5px 0;
-  background:#16a34a;
-  color:white;
-  border:none;
-  border-radius:5px;
-}
-
-#coupon{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:#020617;
-  padding:10px;
-}
-</style>
-</head>
-
-<body>
-
-<header>
-Bakiye: <span id="balance">1000</span> ₺  
+balance">1000</span> ₺  
 <br>
 <button onclick="logout()">Çıkış</button>
 </header>
@@ -173,5 +59,79 @@ function logout(){
 }
 </script>
 
-</body>
-</html>
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0b1c2d;
+  color:white;
+  text-align:center;
+  padding-top:60px;
+  padding-bottom:80px;
+}
+
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:60px;
+  background:#020617;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 15px;
+  z-index:10;
+}
+
+.match{
+  background:#142c44;
+  margin:15px auto;
+  padding:15px;
+  width:90%;
+  max-width:360px;
+  border-radius:12px;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  margin:6px 0;
+  background:#16a34a;
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+}
+
+#coupon{
+  position:fixed;
+  bottom:65px;
+  left:0;
+  right:0;
+  background:#020617;
+  padding:10px;
+}
+
+#bottomMenu{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:65px;
+  background:#020617;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  border-top:2px solid #16a34a;
+}
+
+.menuItem{
+  font-size:14px;
+  color:#22c55e;
+}
+</style>
