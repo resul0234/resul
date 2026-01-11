@@ -10,12 +10,7 @@ balance">1000</span> ₺
 <button onclick="logout()">Çıkış</button>
 </header>
 
-<div class="match">
-<h3>GS - FB</h3>
-<button onclick="addBet(1.8)">GS (1.80)</button>
-<button onclick="addBet(3.2)">X (3.20)</button>
-<button onclick="addBet(2.1)">FB (2.10)</button>
-</div>
+
 
 <div id="coupon">
 Toplam Oran: <span id="total">1.00</span><br>
@@ -25,7 +20,23 @@ Toplam Oran: <span id="total">1.00</span><br>
 <script>
 if(localStorage.getItem("login")!=="ok"){
   window.location.href="index.html";
-}
+}<div class="match">
+  <h3>Galatasaray - Fenerbahçe</h3>
+
+  <div class="odds">
+    <button onclick="addBet(1.80)">
+      1<br>1.80
+    </button>
+
+    <button onclick="addBet(3.20)">
+      X<br>3.20
+    </button>
+
+    <button onclick="addBet(2.10)">
+      2<br>2.10
+    </button>
+  </div>
+</div>
 
 let balance = localStorage.getItem("balance")
 ? Number(localStorage.getItem("balance")) : 1000;
