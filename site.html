@@ -59,6 +59,11 @@ function logout(){
 }
 </script>
 
+
+.menuItem{
+  font-size:14px;
+  color:#22c55e;
+}
 <style>
 *{
   box-sizing:border-box;
@@ -66,48 +71,68 @@ function logout(){
 
 body{
   margin:0;
-  font-family:Arial, sans-serif;
-  background:#0b1c2d;
-  color:white;
-  text-align:center;
-  padding-top:60px;
-  padding-bottom:80px;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#0e1621;
+  color:#e5e7eb;
+  padding-top:65px;
+  padding-bottom:140px;
 }
 
+/* ÜST BAR */
 header{
   position:fixed;
   top:0;
   left:0;
   right:0;
-  height:60px;
+  height:65px;
   background:#020617;
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:0 15px;
   z-index:10;
+  font-weight:bold;
 }
 
+/* MAÇ KARTI */
 .match{
-  background:#142c44;
+  background:#111827;
   margin:15px auto;
-  padding:15px;
-  width:90%;
-  max-width:360px;
-  border-radius:12px;
-}
-
-button{
-  width:100%;
   padding:12px;
-  margin:6px 0;
-  background:#16a34a;
-  color:white;
-  border:none;
-  border-radius:8px;
-  font-size:16px;
+  width:95%;
+  max-width:420px;
+  border-radius:10px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.5);
 }
 
+.match h3{
+  font-size:15px;
+  margin:0 0 10px;
+  text-align:left;
+}
+
+/* ORAN SATIRI */
+.odds{
+  display:flex;
+  gap:8px;
+}
+
+.odds button{
+  flex:1;
+  background:#1f2933;
+  border:1px solid #374151;
+  color:#f9fafb;
+  padding:10px 5px;
+  border-radius:6px;
+  font-size:14px;
+}
+
+.odds button:hover{
+  background:#16a34a;
+  border-color:#16a34a;
+}
+
+/* KUPON */
 #coupon{
   position:fixed;
   bottom:65px;
@@ -115,8 +140,20 @@ button{
   right:0;
   background:#020617;
   padding:10px;
+  border-top:2px solid #16a34a;
 }
 
+#coupon button{
+  background:#16a34a;
+  border:none;
+  padding:12px;
+  width:100%;
+  border-radius:6px;
+  font-size:16px;
+  color:white;
+}
+
+/* ALT MENÜ */
 #bottomMenu{
   position:fixed;
   bottom:0;
@@ -127,11 +164,11 @@ button{
   display:flex;
   justify-content:space-around;
   align-items:center;
-  border-top:2px solid #16a34a;
+  border-top:1px solid #374151;
 }
 
 .menuItem{
-  font-size:14px;
-  color:#22c55e;
+  font-size:13px;
+  color:#9ca3af;
 }
 </style>
