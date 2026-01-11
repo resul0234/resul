@@ -2,131 +2,62 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Resul Bet</title>
+<title>Demo Bahis - Giriş</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 body{
-  margin:0;
-  font-family:Arial;
   background:#0b1c2d;
+  font-family:Arial;
   color:white;
-  text-align:center;
-  padding-bottom:140px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
-
-header{
-  background:#020617;
-  padding:15px;
-  font-size:20px;
-}
-
-.match{
+.box{
   background:#142c44;
-  margin:15px auto;
-  padding:15px;
-  width:300px;
+  padding:20px;
+  width:280px;
   border-radius:10px;
+  text-align:center;
 }
-
-button{
-  width:100%;
+input{
+  width:90%;
   padding:10px;
-  margin:5px 0;
+  margin:8px 0;
+}
+button{
+  width:95%;
+  padding:10px;
   background:#16a34a;
   color:white;
   border:none;
   border-radius:5px;
   font-size:16px;
 }
-
-#coupon{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:#020617;
-  padding:10px;
-  border-top:2px solid #16a34a;
-}
 </style>
 </head>
 
 <body>
 
-<header>
-🎲 Resul Bet <br>
-Bakiye: <span id="balance">1000</span> ₺
-</header>
-
-<div class="match">
-  <h3>Galatasaray - Fenerbahçe</h3>
-  <button onclick="addBet('GS',1.8)">Galatasaray (1.80)</button>
-  <button onclick="addBet('X',3.2)">Beraberlik (3.20)</button>
-  <button onclick="addBet('FB',2.1)">Fenerbahçe (2.10)</button>
-</div>
-
-<div class="match">
-  <h3>Barcelona - Real Madrid</h3>
-  <button onclick="addBet('Barca',1.7)">Barcelona (1.70)</button>
-  <button onclick="addBet('X2',3.5)">Beraberlik (3.50)</button>
-  <button onclick="addBet('Real',2.3)">Real Madrid (2.30)</button>
-</div>
-
-<div id="coupon">
-  <div id="list">Kupon boş</div>
-  <div>Toplam Oran: <span id="total">1.00</span></div>
-  <button onclick="playCoupon()">Kuponu Oyna (DEMO)</button>
+<div class="box">
+  <h2>🎲 Demo Bahis</h2>
+  <input id="user" placeholder="Kullanıcı adı">
+  <input id="pass" type="password" placeholder="Şifre">
+  <button onclick="login()">Giriş Yap</button>
 </div>
 
 <script>
-let balance = localStorage.getItem("balance")
-  ? Number(localStorage.getItem("balance"))
-  : 1000;
+function login(){
+  let u = document.getElementById("user").value;
+  let p = document.getElementById("pass").value;
 
-let total = 1;
-let bets = [];
-
-document.getElementById("balance").innerText = balance.toFixed(2);
-
-function addBet(name, odd){
-  if(bets.includes(name)) return;
-  bets.push(name);
-  total *= odd;
-
-  document.getElementById("list").innerHTML = bets.join("<br>");
-  document.getElementById("total").innerText = total.toFixed(2);
-}
-
-function playCoupon(){
-  if(bets.length === 0){
-    alert("Kupon boş");
-    return;
-  }
-
-  let stake = 50;
-  if(balance < stake){
-    alert("Yetersiz bakiye");
-    return;
-  }
-
-  balance -= stake;
-
-  if(Math.random() > 0.5){
-    let win = stake * total;
-    balance += win;
-    alert("Kazandın! +" + win.toFixed(2) + " ₺");
+  if(u === "demo" && p === "1234"){
+    localStorage.setItem("login","ok");
+    window.location.href = "site.html";
   }else{
-    alert("Kaybettin!");
+    alert("Hatalı giriş");
   }
-
-  localStorage.setItem("balance", balance);
-  document.getElementById("balance").innerText = balance.toFixed(2);
-
-  bets = [];
-  total = 1;
-  document.getElementById("list").innerText = "Kupon boş";
-  document.getElementById("total").innerText = "1.00";
 }
 </script>
 
