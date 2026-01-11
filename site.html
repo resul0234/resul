@@ -5,63 +5,79 @@
 <title>Resul Bet</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-balance">1000</span> ₺  
-<br>
-<button onclick="logout()">Çıkış</button>
+<style>
+body{
+  margin:0;
+  background:#0b1c2d;
+  font-family:Arial;
+  color:white;
+}
+
+header{
+  background:#020617;
+  padding:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.menuItem{
+  font-size:14px;
+  color:#22c55e;
+}
+
+.match{
+  background:#142c44;
+  margin:15px;
+  padding:15px;
+  border-radius:10px;
+}
+
+.btn{
+  display:block;
+  margin:8px 0;
+  padding:10px;
+  background:#16a34a;
+  color:white;
+  border:none;
+  border-radius:5px;
+  width:100%;
+}
+
+.footer{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#020617;
+  padding:10px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div>💰 Bakiye: 1000 ₺</div>
+  <button class="btn" onclick="logout()">Çıkış</button>
 </header>
 
+<div class="match">
+  <h3>GS - FB</h3>
+  <button class="btn">GS (1.80)</button>
+  <button class="btn">X (3.20)</button>
+  <button class="btn">FB (2.10)</button>
+</div>
 
-
-<div id="coupon">
-Toplam Oran: <span id="total">1.00</span><br>
-<button onclick="play()">Kupon Oyna</button>
+<div class="footer">
+  Toplam Oran: 1.00<br><br>
+  <button class="btn">Kupon Oyna</button>
 </div>
 
 <script>
 if(localStorage.getItem("login")!=="ok"){
   window.location.href="index.html";
-}<div class="match">
-  <h3>Galatasaray - Fenerbahçe</h3>
-
-  <div class="odds">
-    <button onclick="addBet(1.80)">
-      1<br>1.80
-    </button>
-
-    <button onclick="addBet(3.20)">
-      X<br>3.20
-    </button>
-
-    <button onclick="addBet(2.10)">
-      2<br>2.10
-    </button>
-  </div>
-</div>
-
-let balance = localStorage.getItem("balance")
-? Number(localStorage.getItem("balance")) : 1000;
-
-let total = 1;
-
-document.getElementById("balance").innerText = balance;
-
-function addBet(o){
-  total *= o;
-  document.getElementById("total").innerText = total.toFixed(2);
-}
-
-function play(){
-  balance -= 50;
-  if(Math.random()>0.5){
-    balance += 50*total;
-    alert("Kazandın");
-  }else{
-    alert("Kaybettin");
-  }
-  localStorage.setItem("balance",balance);
-  document.getElementById("balance").innerText = balance.toFixed(2);
-  total=1;
-  document.getElementById("total").innerText="1.00";
 }
 
 function logout(){
@@ -70,116 +86,5 @@ function logout(){
 }
 </script>
 
-
-.menuItem{
-  font-size:14px;
-  color:#22c55e;
-}
-<style>
-*{
-  box-sizing:border-box;
-}
-
-body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#0e1621;
-  color:#e5e7eb;
-  padding-top:65px;
-  padding-bottom:140px;
-}
-
-/* ÜST BAR */
-header{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  height:65px;
-  background:#020617;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 15px;
-  z-index:10;
-  font-weight:bold;
-}
-
-/* MAÇ KARTI */
-.match{
-  background:#111827;
-  margin:15px auto;
-  padding:12px;
-  width:95%;
-  max-width:420px;
-  border-radius:10px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.5);
-}
-
-.match h3{
-  font-size:15px;
-  margin:0 0 10px;
-  text-align:left;
-}
-
-/* ORAN SATIRI */
-.odds{
-  display:flex;
-  gap:8px;
-}
-
-.odds button{
-  flex:1;
-  background:#1f2933;
-  border:1px solid #374151;
-  color:#f9fafb;
-  padding:10px 5px;
-  border-radius:6px;
-  font-size:14px;
-}
-
-.odds button:hover{
-  background:#16a34a;
-  border-color:#16a34a;
-}
-
-/* KUPON */
-#coupon{
-  position:fixed;
-  bottom:65px;
-  left:0;
-  right:0;
-  background:#020617;
-  padding:10px;
-  border-top:2px solid #16a34a;
-}
-
-#coupon button{
-  background:#16a34a;
-  border:none;
-  padding:12px;
-  width:100%;
-  border-radius:6px;
-  font-size:16px;
-  color:white;
-}
-
-/* ALT MENÜ */
-#bottomMenu{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:65px;
-  background:#020617;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  border-top:1px solid #374151;
-}
-
-.menuItem{
-  font-size:13px;
-  color:#9ca3af;
-}
-</style>
+</body>
+</html>
