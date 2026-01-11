@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title> Resul Bet - Kayıt Ol</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  background:#0b1c2d;
+  font-family:Arial;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.box{
+  background:#142c44;
+  padding:20px;
+  width:280px;
+  border-radius:10px;
+  text-align:center;
+}
+input{
+  width:90%;
+  padding:10px;
+  margin:8px 0;
+}
+button{
+  width:95%;
+  padding:10px;
+  background:#16a34a;
+  color:white;
+  border:none;
+  border-radius:5px;
+  font-size:16px;
+}
+a{
+  color:#22c55e;
+  text-decoration:none;
+  font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>📝 Kayıt Ol</h2>
+  <input id="user" placeholder="Kullanıcı adı">
+  <input id="pass" type="password" placeholder="Şifre">
+  <button onclick="register()">Kayıt Ol</button>
+  <br><br>
+  <a href="index.html">Giriş yap</a>
+</div>
+
+<script>
+function register(){
+  let u = document.getElementById("user").value;
+  let p = document.getElementById("pass").value;
+
+  if(u==="" || p===""){
+    alert("Boş bırakma");
+    return;
+  }
+
+  localStorage.setItem("user", u);
+  localStorage.setItem("pass", p);
+
+  alert("Kayıt başarılı");
+  window.location.href="index.html";
+}
+</script>
+
+</body>
+</html>
