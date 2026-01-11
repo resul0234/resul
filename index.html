@@ -46,13 +46,15 @@ button{
   <input id="pass" type="password" placeholder="Şifre">
   <button onclick="login()">Giriş Yap</button>
 </div>
-
 <script>
 function login(){
   let u = document.getElementById("user").value;
   let p = document.getElementById("pass").value;
 
-  if(u === "demo" && p === "1234"){
+  let ru = localStorage.getItem("user");
+  let rp = localStorage.getItem("pass");
+
+  if(u === ru && p === rp){
     localStorage.setItem("login","ok");
     window.location.href = "site.html";
   }else{
@@ -60,6 +62,3 @@ function login(){
   }
 }
 </script>
-
-</body>
-</html>
