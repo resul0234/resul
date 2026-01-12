@@ -85,11 +85,18 @@ header{
 💰 Bakiye: <span id="balance">1000</span> ₺
 </header>
 
-<div class="match">
+<div class="match" data-odd="1.80">
   <h3>GS - FB</h3>
-  <button class="btn" onclick="selectOdd(1.80, this)">GS (1.80)</button>
-  <button class="btn" onclick="selectOdd(3.20, this)">X (3.20)</button>
-  <button class="btn" onclick="selectOdd(2.10, this)">FB (2.10)</button>
+  <button class="btn" onclick="selectOdd(this, 1.80)">GS (1.80)</button>
+  <button class="btn" onclick="selectOdd(this, 3.20)">X (3.20)</button>
+  <button class="btn" onclick="selectOdd(this, 2.10)">FB (2.10)</button>
+</div>
+
+<div class="match" data-odd="1.50">
+  <h3>TS - FB</h3>
+  <button class="btn" onclick="selectOdd(this, 1.50)">TS (1.50)</button>
+  <button class="btn" onclick="selectOdd(this, 2.50)">X (2.50)</button>
+  <button class="btn" onclick="selectOdd(this, 2.00)">FB (2.00)</button>
 </div>
 
 <div class="footer">
