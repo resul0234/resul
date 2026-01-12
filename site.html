@@ -95,7 +95,7 @@ function playCoupon(){
   balance -= stake;
   document.getElementById("balance").innerText = balance;
 
-  let win = Math.random() < 0.5; // demo için rastgele
+  let win = Math.random() < 0.5; 
   let box = document.getElementById("result");
   if(win){
     let winAmount = Math.floor(stake*total);
