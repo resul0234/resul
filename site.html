@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Resul Bet</title>
+<title>Resul Bet + Slot</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body{margin:0; background:#0b1c2d; font-family:Arial; color:white;}
@@ -20,6 +20,8 @@ header{background:#020617; padding:12px; text-align:center; font-size:18px;}
 .balanceActions input{ padding:8px; width:100px; margin-right:6px; }
 .stakeAction{ text-align:center; margin:15px; }
 .stakeAction input{ padding:8px; width:100px; margin-right:6px; }
+.slotGame{background:#142c44; margin:15px; padding:15px; border-radius:10px; text-align:center;}
+#slotReels{font-size:30px; margin:10px 0;}
 </style>
 </head>
 <body>
@@ -61,6 +63,13 @@ header{background:#020617; padding:12px; text-align:center; font-size:18px;}
 
 <!-- Sonuç animasyonu -->
 <div id="result" class="resultBox"></div>
+
+<!-- Slot oyunu -->
+<div class="slotGame">
+  <h3>🎰 Slot Demo</h3>
+  <div id="slotReels">🍒 | 🍋 | ⭐</div>
+  <button class="btn" onclick="spinSlot()">Spin</button>
+</div>
 
 <script>
 let balance = 1000;
@@ -134,7 +143,28 @@ function withdraw(){
   balance -= amt;
   document.getElementById("balance").innerText = balance;
   alert(amt + " ₺ çekildi!");
-  document.getElementById("amount").value = "";
+}
+
+// Slot oyunu
+let symbols = ["🍒","🍋","⭐","🔔","7"];
+function spinSlot(){
+  if(balance < 10){ alert("Yetersiz bakiye!"); return; } // her spin 10 ₺
+  let reels = [];
+  for(let i=0;i<3;i++){
+    let rand = symbols[Math.floor(Math.random()*symbols.length)];
+    reels.push(rand);
+  }
+  document.getElementById("slotReels").innerText = reels.join(" | ");
+
+  if(reels[0]===reels[1] && reels[1]===reels[2]){
+    let win = 50; 
+    balance += win;
+    alert("🎉 Slot Kazandın: +" + win + " ₺");
+  }else{
+    balance -= 10; 
+    alert("Kaybettin! 10 ₺ düşüldü");
+  }
+  document.getElementById("balance").innerText = balance;
 }
 </script>
 
