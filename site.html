@@ -10,23 +10,22 @@ header{background:#020617; padding:12px; text-align:center; font-size:18px;}
 .match{background:#142c44; margin:15px; padding:15px; border-radius:10px;}
 .btn{display:block; width:100%; margin:6px 0; padding:10px; background:#16a34a; color:white; border:none; border-radius:6px; font-size:15px;}
 .btn.selected{background:#22c55e;}
-<div class="balanceActions" style="text-align:center; margin:15px;">
-  <input type="number" id="amount" placeholder="Tutar" style="padding:8px; width:100px;">
-  <button class="btn" onclick="deposit()">Yükle</button>
-  <button class="btn" onclick="withdraw()">Çek</button>
-</div>
-  .footer{position:fixed; bottom:0; left:0; right:0; background:#020617; padding:10px; text-align:center;}
+.footer{position:fixed; bottom:0; left:0; right:0; background:#020617; padding:10px; text-align:center;}
 .kuponBtn{margin-top:8px; background:#22c55e; font-weight:bold;}
 .resultBox{position:fixed; top:-100px; left:50%; transform:translateX(-50%); padding:15px 25px; border-radius:10px; font-size:18px; font-weight:bold; color:white; transition:top 0.5s; z-index:999;}
 .resultBox.show{top:20px;}
 .win{background:#16a34a;}
 .lose{background:#dc2626;}
+.balanceActions{ text-align:center; margin:15px; }
+.balanceActions input{ padding:8px; width:100px; margin-right:6px; }
+.balanceActions button{ padding:8px 12px; margin-right:6px; background:#16a34a; border:none; border-radius:5px; color:white; cursor:pointer; }
 </style>
 </head>
 <body>
 
 <header>💰 Bakiye: <span id="balance">1000</span> ₺</header>
 
+<!-- Çoklu maç -->
 <div class="match">
   <h3>GS - FB</h3>
   <button class="btn" onclick="selectOdd(this, 1.80)">GS (1.80)</button>
@@ -41,44 +40,28 @@ header{background:#020617; padding:12px; text-align:center; font-size:18px;}
   <button class="btn" onclick="selectOdd(this, 2.00)">FB (2.00)</button>
 </div>
 
+<!-- Bakiye yükle/çek -->
+<div class="balanceActions">
+  <input type="number" id="amount" placeholder="Tutar">
+  <button onclick="deposit()">Yükle</button>
+  <button onclick="withdraw()">Çek</button>
+</div>
+
+<!-- Kupon ve toplam oran -->
 <div class="footer">
   Toplam Oran: <span id="total">1.00</span>
   <button class="btn kuponBtn" onclick="playCoupon()">Kupon Yap</button>
 </div>
 
+<!-- Sonuç animasyonu -->
 <div id="result" class="resultBox"></div>
 
 <script>
 let balance = 1000;
 let stake = 100;
-let selectedOdds = [];function deposit(){
-  let amt = parseInt(document.getElementById("amount").value);
-  if(isNaN(amt) || amt <= 0){
-    alert("Geçerli bir tutar gir");
-    return;
-  }
-  balance += amt;
-  document.getElementById("balance").innerText = balance;
-  alert(amt + " ₺ yüklendi!");
-  document.getElementById("amount").value = "";
-}
+let selectedOdds = [];
 
-function withdraw(){
-  let amt = parseInt(document.getElementById("amount").value);
-  if(isNaN(amt) || amt <= 0){
-    alert("Geçerli bir tutar gir");
-    return;
-  }
-  if(amt > balance){
-    alert("Yetersiz bakiye");
-    return;
-  }
-  balance -= amt;
-  document.getElementById("balance").innerText = balance;
-  alert(amt + " ₺ çekildi!");
-  document.getElementById("amount").value = "";
-}
-
+// Oran seçimi
 function selectOdd(btn, odd){
   let matchDiv = btn.closest(".match");
   let matches = Array.from(document.querySelectorAll(".match"));
@@ -94,9 +77,10 @@ function selectOdd(btn, odd){
   document.getElementById("total").innerText = total.toFixed(2);
 }
 
+// Kupon oynama
 function playCoupon(){
   let total = parseFloat(document.getElementById("total").innerText);
-  if(total === 1){ alert("Önce bir veya daha fazla oran seç"); return; }
+  if(total === 1){ alert("Önce oran seç"); return; }
   if(balance < stake){ alert("Yetersiz bakiye"); return; }
 
   balance -= stake;
@@ -121,7 +105,18 @@ function playCoupon(){
   document.querySelectorAll(".btn").forEach(b=>b.classList.remove("selected"));
   document.getElementById("total").innerText = "1.00";
 }
-</script>
 
-</body>
-</html>
+// Bakiye yükle
+function deposit(){
+  let amt = parseInt(document.getElementById("amount").value);
+  if(isNaN(amt) || amt <=0){ alert("Geçerli tutar gir"); return; }
+  balance += amt;
+  document.getElementById("balance").innerText = balance;
+  alert(amt + " ₺ yüklendi!");
+  document.getElementById("amount").value = "";
+}
+
+// Bakiye çek
+function withdraw(){
+  let amt = parseInt(document.getElementById("amount").value);
+  if(isNaN(amt) || amt <=0){
