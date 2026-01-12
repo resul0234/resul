@@ -85,6 +85,17 @@ function logout(){
   window.location.href="index.html";
 }
 </script>
+<script>
+let total = 1;
 
+function selectOdd(odd, btn){
+  total = odd;
+  document.getElementById("total").innerText = odd.toFixed(2);
+
+  let buttons = document.querySelectorAll(".btn");
+  buttons.forEach(b => b.style.background = "#16a34a");
+  btn.style.background = "#22c55e";
+}
+</script>
 </body>
 </html>
