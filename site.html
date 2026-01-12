@@ -5,43 +5,19 @@
 <title>Resul Bet</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>.kuponBtn{
-  margin-top:8px;
-  background:#22c55e;
-  font-weight:bold;
-}.resultBox{
-  position:fixed;
-  top:-100px;
-  left:50%;
-  transform:translateX(-50%);
-  padding:15px 25px;
-  border-radius:10px;
-  font-size:18px;
-  font-weight:bold;
+<style>
+body{
+  margin:0;
+  background:#0b1c2d;
+  font-family:Arial;
   color:white;
-  z-index:999;
-  transition:top 0.5s ease;
-}
-
-.win{
-  background:#16a34a;
-}
-
-.lose{
-  background:#dc2626;
-}
-
-.show{
-  top:20px;
-}
 }
 
 header{
   background:#020617;
   padding:12px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  text-align:center;
+  font-size:18px;
 }
 
 .match{
@@ -62,7 +38,11 @@ header{
   border-radius:6px;
   font-size:15px;
 }
-<div id="result" class="resultBox"></div>
+
+.btn.active{
+  background:#22c55e;
+}
+
 .footer{
   position:fixed;
   bottom:0;
@@ -72,52 +52,54 @@ header{
   padding:10px;
   text-align:center;
 }
+
+.kuponBtn{
+  margin-top:8px;
+  background:#22c55e;
+  font-weight:bold;
+}
+
+.resultBox{
+  position:fixed;
+  top:-100px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:15px 25px;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:bold;
+  color:white;
+  transition:top 0.5s;
+  z-index:999;
+}
+
+.resultBox.show{ top:20px; }
+.win{ background:#16a34a; }
+.lose{ background:#dc2626; }
 </style>
 </head>
 
 <body>
 
 <header>
-  <div>💰 Bakiye: <span id="balance">1000</span> ₺</div>
+💰 Bakiye: <span id="balance">1000</span> ₺
 </header>
 
 <div class="match">
   <h3>GS - FB</h3>
-
-  <button class="btn" onclick="selectOdd(1.80, this)">
-    GS (1.80)
-  </button>
-
-  <button class="btn" onclick="selectOdd(3.20, this)">
-    X (3.20)
-  </button>
-
-  <button class="btn" onclick="selectOdd(2.10, this)">
-    FB (2.10)
-  </button>
+  <button class="btn" onclick="selectOdd(1.80, this)">GS (1.80)</button>
+  <button class="btn" onclick="selectOdd(3.20, this)">X (3.20)</button>
+  <button class="btn" onclick="selectOdd(2.10, this)">FB (2.10)</button>
 </div>
 
 <div class="footer">
-  <div>Toplam Oran: <span id="total">1.00</span></div>
+  Toplam Oran: <span id="total">1.00</span>
   <button class="btn kuponBtn" onclick="playCoupon()">Kupon Yap</button>
 </div>
 
+<div id="result" class="resultBox"></div>
+
 <script>
-let total = 1;
-
-function selectOdd(odd, btn){
-  total = odd;
-  document.getElementById("total").innerText = odd.toFixed(2);
-
-  // tüm butonları eski renge al
-  document.querySelectorAll(".btn").forEach(b=>{
-    b.style.background = "#16a34a";
-  });
-
-  // seçileni vurgula
-  btn.style.background = "#22c55e";
-}
-</script><script>
 let balance = 1000;
 let total = 1;
 let stake = 100;
@@ -127,14 +109,14 @@ function selectOdd(odd, btn){
   document.getElementById("total").innerText = odd.toFixed(2);
 
   document.querySelectorAll(".btn").forEach(b=>{
-    b.style.background = "#16a34a";
+    b.classList.remove("active");
   });
-  btn.style.background = "#22c55e";
+  btn.classList.add("active");
 }
 
 function playCoupon(){
   if(total === 1){
-    alert("Önce oran seçmelisin");
+    alert("Önce oran seç");
     return;
   }
 
@@ -147,27 +129,27 @@ function playCoupon(){
   document.getElementById("balance").innerText = balance;
 
   let win = Math.random() < 0.5;
-  let resultBox = document.getElementById("result");
-
-  resultBox.className = "resultBox show " + (win ? "win" : "lose");
+  let box = document.getElementById("result");
 
   if(win){
     let winAmount = Math.floor(stake * total);
     balance += winAmount;
     document.getElementById("balance").innerText = balance;
-    resultBox.innerText = "🎉 KAZANDIN! +" + winAmount + " ₺";
+    box.innerText = "🎉 KAZANDIN! +" + winAmount + " ₺";
+    box.className = "resultBox show win";
   }else{
-    resultBox.innerText = "❌ KAYBETTİN!";
+    box.innerText = "❌ KAYBETTİN!";
+    box.className = "resultBox show lose";
   }
 
   setTimeout(()=>{
-    resultBox.className = "resultBox";
+    box.className = "resultBox";
   },2500);
 
   total = 1;
   document.getElementById("total").innerText = "1.00";
 }
 </script>
-}
+
 </body>
 </html>
