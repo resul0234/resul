@@ -4,97 +4,32 @@
 <meta charset="UTF-8">
 <title>Resul Bet</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>.btn.selected{
-  background:#22c55e;
-}
-body{
-  margin:0;
-  background:#0b1c2d;
-  font-family:Arial;
-  color:white;
-}
-
-header{
-  background:#020617;
-  padding:12px;
-  text-align:center;
-  font-size:18px;
-}
-
-.match{
-  background:#142c44;
-  margin:15px;
-  padding:15px;
-  border-radius:10px;
-}
-
-.btn{
-  display:block;
-  width:100%;
-  margin:6px 0;
-  padding:10px;
-  background:#16a34a;
-  color:white;
-  border:none;
-  border-radius:6px;
-  font-size:15px;
-}
-
-.btn.active{
-  background:#22c55e;
-}
-
-.footer{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:#020617;
-  padding:10px;
-  text-align:center;
-}
-
-.kuponBtn{
-  margin-top:8px;
-  background:#22c55e;
-  font-weight:bold;
-}
-
-.resultBox{
-  position:fixed;
-  top:-100px;
-  left:50%;
-  transform:translateX(-50%);
-  padding:15px 25px;
-  border-radius:10px;
-  font-size:18px;
-  font-weight:bold;
-  color:white;
-  transition:top 0.5s;
-  z-index:999;
-}
-
-.resultBox.show{ top:20px; }
-.win{ background:#16a34a; }
-.lose{ background:#dc2626; }
+<style>
+body{margin:0; background:#0b1c2d; font-family:Arial; color:white;}
+header{background:#020617; padding:12px; text-align:center; font-size:18px;}
+.match{background:#142c44; margin:15px; padding:15px; border-radius:10px;}
+.btn{display:block; width:100%; margin:6px 0; padding:10px; background:#16a34a; color:white; border:none; border-radius:6px; font-size:15px;}
+.btn.selected{background:#22c55e;}
+.footer{position:fixed; bottom:0; left:0; right:0; background:#020617; padding:10px; text-align:center;}
+.kuponBtn{margin-top:8px; background:#22c55e; font-weight:bold;}
+.resultBox{position:fixed; top:-100px; left:50%; transform:translateX(-50%); padding:15px 25px; border-radius:10px; font-size:18px; font-weight:bold; color:white; transition:top 0.5s; z-index:999;}
+.resultBox.show{top:20px;}
+.win{background:#16a34a;}
+.lose{background:#dc2626;}
 </style>
 </head>
-
 <body>
 
-<header>
-💰 Bakiye: <span id="balance">1000</span> ₺
-</header>
+<header>💰 Bakiye: <span id="balance">1000</span> ₺</header>
 
-<div class="match" data-odd="1.80">
+<div class="match">
   <h3>GS - FB</h3>
   <button class="btn" onclick="selectOdd(this, 1.80)">GS (1.80)</button>
   <button class="btn" onclick="selectOdd(this, 3.20)">X (3.20)</button>
   <button class="btn" onclick="selectOdd(this, 2.10)">FB (2.10)</button>
 </div>
 
-<div class="match" data-odd="1.50">
+<div class="match">
   <h3>TS - FB</h3>
   <button class="btn" onclick="selectOdd(this, 1.50)">TS (1.50)</button>
   <button class="btn" onclick="selectOdd(this, 2.50)">X (2.50)</button>
@@ -110,38 +45,36 @@ header{
 
 <script>
 let balance = 1000;
-let total = 1;
 let stake = 100;
+let selectedOdds = [];
 
-function selectOdd(odd, btn){
-  total = odd;
-  document.getElementById("total").innerText = odd.toFixed(2);
+function selectOdd(btn, odd){
+  let matchDiv = btn.closest(".match");
+  let matches = Array.from(document.querySelectorAll(".match"));
+  let index = matches.indexOf(matchDiv);
 
-  document.querySelectorAll(".btn").forEach(b=>{
-    b.classList.remove("active");
-  });
-  btn.classList.add("active");
+  selectedOdds[index] = odd;
+
+  matchDiv.querySelectorAll(".btn").forEach(b=>b.classList.remove("selected"));
+  btn.classList.add("selected");
+
+  let total = 1;
+  selectedOdds.forEach(o=>{ if(o) total *= o; });
+  document.getElementById("total").innerText = total.toFixed(2);
 }
 
 function playCoupon(){
-  if(total === 1){
-    alert("Önce oran seç");
-    return;
-  }
-
-  if(balance < stake){
-    alert("Yetersiz bakiye");
-    return;
-  }
+  let total = parseFloat(document.getElementById("total").innerText);
+  if(total === 1){ alert("Önce bir veya daha fazla oran seç"); return; }
+  if(balance < stake){ alert("Yetersiz bakiye"); return; }
 
   balance -= stake;
   document.getElementById("balance").innerText = balance;
 
   let win = Math.random() < 0.5;
   let box = document.getElementById("result");
-
   if(win){
-    let winAmount = Math.floor(stake * total);
+    let winAmount = Math.floor(stake*total);
     balance += winAmount;
     document.getElementById("balance").innerText = balance;
     box.innerText = "🎉 KAZANDIN! +" + winAmount + " ₺";
@@ -151,11 +84,10 @@ function playCoupon(){
     box.className = "resultBox show lose";
   }
 
-  setTimeout(()=>{
-    box.className = "resultBox";
-  },2500);
+  setTimeout(()=>{ box.className="resultBox"; },2500);
 
-  total = 1;
+  selectedOdds = [];
+  document.querySelectorAll(".btn").forEach(b=>b.classList.remove("selected"));
   document.getElementById("total").innerText = "1.00";
 }
 </script>
