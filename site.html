@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Resul Bet + Mini Oyunlar + Geçmiş</title>
+<title>Resul Bet + Oyunlar + Geçmiş</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body{margin:0; background:#0b1c2d; font-family:Arial; color:white; text-align:center;}
@@ -87,11 +87,10 @@ header{background:#020617; padding:12px; font-size:18px;}
 </div>
 
 <script>
-// Genel bakiye
 let balance = 1000;
 let history = [];
 
-// 🏆 Bahis Seçimi
+// Bahis Seçimi
 let defaultStake = 100;
 let selectedOdds = [];
 function selectOdd(btn, odd){
@@ -237,7 +236,6 @@ function addHistory(game,result){
   history.unshift(entry);
   renderHistory();
 }
-
 function renderHistory(){
   let list=document.getElementById("historyList");
   list.innerHTML="";
