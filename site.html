@@ -51,7 +51,33 @@ header{background:#020617; padding:12px; text-align:center; font-size:18px;}
 <script>
 let balance = 1000;
 let stake = 100;
-let selectedOdds = [];
+let selectedOdds = [];function deposit(){
+  let amt = parseInt(document.getElementById("amount").value);
+  if(isNaN(amt) || amt <= 0){
+    alert("Geçerli bir tutar gir");
+    return;
+  }
+  balance += amt;
+  document.getElementById("balance").innerText = balance;
+  alert(amt + " ₺ yüklendi!");
+  document.getElementById("amount").value = "";
+}
+
+function withdraw(){
+  let amt = parseInt(document.getElementById("amount").value);
+  if(isNaN(amt) || amt <= 0){
+    alert("Geçerli bir tutar gir");
+    return;
+  }
+  if(amt > balance){
+    alert("Yetersiz bakiye");
+    return;
+  }
+  balance -= amt;
+  document.getElementById("balance").innerText = balance;
+  alert(amt + " ₺ çekildi!");
+  document.getElementById("amount").value = "";
+}
 
 function selectOdd(btn, odd){
   let matchDiv = btn.closest(".match");
