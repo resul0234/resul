@@ -41,7 +41,10 @@ header{background:#020617; padding:12px; text-align:center; font-size:18px;}
 </div>
 
 <!-- Bakiye yükle/çek -->
-<div class="balanceActions">
+<div class="stakeAction" style="text-align:center; margin:15px;">
+  <input type="number" id="stakeInput" placeholder="Kupon Bedeli" style="padding:8px; width:100px;">
+</div>
+  <div class="balanceActions">
   <input type="number" id="amount" placeholder="Tutar">
   <button onclick="deposit()">Yükle</button>
   <button onclick="withdraw()">Çek</button>
