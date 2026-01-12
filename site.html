@@ -117,6 +117,56 @@ function selectOdd(odd, btn){
   // seçileni vurgula
   btn.style.background = "#22c55e";
 }
+</script><script>
+let balance = 1000;
+let total = 1;
+let stake = 100;
+
+function selectOdd(odd, btn){
+  total = odd;
+  document.getElementById("total").innerText = odd.toFixed(2);
+
+  document.querySelectorAll(".btn").forEach(b=>{
+    b.style.background = "#16a34a";
+  });
+  btn.style.background = "#22c55e";
+}
+
+function playCoupon(){
+  if(total === 1){
+    alert("Önce oran seçmelisin");
+    return;
+  }
+
+  if(balance < stake){
+    alert("Yetersiz bakiye");
+    return;
+  }
+
+  balance -= stake;
+  document.getElementById("balance").innerText = balance;
+
+  let win = Math.random() < 0.5;
+  let resultBox = document.getElementById("result");
+
+  resultBox.className = "resultBox show " + (win ? "win" : "lose");
+
+  if(win){
+    let winAmount = Math.floor(stake * total);
+    balance += winAmount;
+    document.getElementById("balance").innerText = balance;
+    resultBox.innerText = "🎉 KAZANDIN! +" + winAmount + " ₺";
+  }else{
+    resultBox.innerText = "❌ KAYBETTİN!";
+  }
+
+  setTimeout(()=>{
+    resultBox.className = "resultBox";
+  },2500);
+
+  total = 1;
+  document.getElementById("total").innerText = "1.00";
+}
 </script>
 }
 </body>
