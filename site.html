@@ -21,11 +21,6 @@ header{
   align-items:center;
 }
 
-.menuItem{
-  font-size:14px;
-  color:#22c55e;
-}
-
 .match{
   background:#142c44;
   margin:15px;
@@ -35,13 +30,14 @@ header{
 
 .btn{
   display:block;
-  margin:8px 0;
+  width:100%;
+  margin:6px 0;
   padding:10px;
   background:#16a34a;
   color:white;
   border:none;
-  border-radius:5px;
-  width:100%;
+  border-radius:6px;
+  font-size:15px;
 }
 
 .footer{
@@ -60,31 +56,28 @@ header{
 
 <header>
   <div>💰 Bakiye: 1000 ₺</div>
-  <button class="btn" onclick="logout()">Çıkış</button>
 </header>
 
 <div class="match">
   <h3>GS - FB</h3>
-  <button class="btn">GS (1.80)</button>
-  <button class="btn">X (3.20)</button>
-  <button class="btn">FB (2.10)</button>
+
+  <button class="btn" onclick="selectOdd(1.80, this)">
+    GS (1.80)
+  </button>
+
+  <button class="btn" onclick="selectOdd(3.20, this)">
+    X (3.20)
+  </button>
+
+  <button class="btn" onclick="selectOdd(2.10, this)">
+    FB (2.10)
+  </button>
 </div>
 
 <div class="footer">
   Toplam Oran: <span id="total">1.00</span>
-  <button class="btn">Kupon Oyna</button>
 </div>
 
-<script>
-if(localStorage.getItem("login")!=="ok"){
-  window.location.href="index.html";
-}
-
-function logout(){
-  localStorage.removeItem("login");
-  window.location.href="index.html";
-}
-</script>
 <script>
 let total = 1;
 
@@ -92,10 +85,15 @@ function selectOdd(odd, btn){
   total = odd;
   document.getElementById("total").innerText = odd.toFixed(2);
 
-  let buttons = document.querySelectorAll(".btn");
-  buttons.forEach(b => b.style.background = "#16a34a");
+  // tüm butonları eski renge al
+  document.querySelectorAll(".btn").forEach(b=>{
+    b.style.background = "#16a34a";
+  });
+
+  // seçileni vurgula
   btn.style.background = "#22c55e";
 }
 </script>
+
 </body>
 </html>
