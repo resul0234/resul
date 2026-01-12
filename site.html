@@ -2,88 +2,104 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Resul Bet + Slot</title>
+<title>Resul Bet + Mini Oyunlar + Geçmiş</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body{margin:0; background:#0b1c2d; font-family:Arial; color:white;}
-header{background:#020617; padding:12px; text-align:center; font-size:18px;}
-.match{background:#142c44; margin:15px; padding:15px; border-radius:10px;}
-.btn{display:block; width:100%; margin:6px 0; padding:10px; background:#16a34a; color:white; border:none; border-radius:6px; font-size:15px; cursor:pointer;}
+body{margin:0; background:#0b1c2d; font-family:Arial; color:white; text-align:center;}
+header{background:#020617; padding:12px; font-size:18px;}
+.btn{padding:10px 15px; margin:5px; border:none; border-radius:6px; font-size:16px; cursor:pointer; background:#16a34a; color:white;}
 .btn.selected{background:#22c55e;}
-.footer{position:fixed; bottom:0; left:0; right:0; background:#020617; padding:10px; text-align:center;}
+.match,.slotGame,.sweetBonanza,.diceGame,.historyDiv{background:#142c44; margin:15px; padding:15px; border-radius:10px;}
+.grid{display:grid; grid-template-columns:repeat(5,50px); grid-gap:5px; justify-content:center; font-size:30px; margin:15px auto;}
+.footer{margin:15px;}
 .kuponBtn{margin-top:8px; background:#22c55e; font-weight:bold;}
 .resultBox{position:fixed; top:-100px; left:50%; transform:translateX(-50%); padding:15px 25px; border-radius:10px; font-size:18px; font-weight:bold; color:white; transition:top 0.5s; z-index:999;}
 .resultBox.show{top:20px;}
 .win{background:#16a34a;}
 .lose{background:#dc2626;}
-.balanceActions{ text-align:center; margin:15px; }
-.balanceActions input{ padding:8px; width:100px; margin-right:6px; }
-.stakeAction{ text-align:center; margin:15px; }
-.stakeAction input{ padding:8px; width:100px; margin-right:6px; }
-.slotGame{background:#142c44; margin:15px; padding:15px; border-radius:10px; text-align:center;}
-#slotReels{font-size:30px; margin:10px 0;}
+.balanceActions input,.stakeAction input,.diceGame input{ padding:8px; width:80px; margin-right:6px; }
+.historyList{max-height:200px; overflow-y:auto; text-align:left; padding-left:15px;}
 </style>
 </head>
 <body>
 
 <header>💰 Bakiye: <span id="balance">1000</span> ₺</header>
 
-<!-- Çoklu maç -->
+<!-- Bahis Maçları -->
 <div class="match">
   <h3>GS - FB</h3>
-  <button class="btn" onclick="selectOdd(this, 1.80)">GS (1.80)</button>
-  <button class="btn" onclick="selectOdd(this, 3.20)">X (3.20)</button>
-  <button class="btn" onclick="selectOdd(this, 2.10)">FB (2.10)</button>
+  <button class="btn" onclick="selectOdd(this,1.80)">GS (1.80)</button>
+  <button class="btn" onclick="selectOdd(this,3.20)">X (3.20)</button>
+  <button class="btn" onclick="selectOdd(this,2.10)">FB (2.10)</button>
 </div>
-
 <div class="match">
   <h3>TS - FB</h3>
-  <button class="btn" onclick="selectOdd(this, 1.50)">TS (1.50)</button>
-  <button class="btn" onclick="selectOdd(this, 2.50)">X (2.50)</button>
-  <button class="btn" onclick="selectOdd(this, 2.00)">FB (2.00)</button>
+  <button class="btn" onclick="selectOdd(this,1.50)">TS (1.50)</button>
+  <button class="btn" onclick="selectOdd(this,2.50)">X (2.50)</button>
+  <button class="btn" onclick="selectOdd(this,2.00)">FB (2.00)</button>
 </div>
 
-<!-- Kupon bedeli -->
+<!-- Kupon Bedeli -->
 <div class="stakeAction">
   <input type="number" id="stakeInput" placeholder="Kupon Bedeli">
 </div>
 
-<!-- Bakiye yükle/çek -->
+<!-- Bakiye Yükle/Çek -->
 <div class="balanceActions">
   <input type="number" id="amount" placeholder="Tutar">
   <button onclick="deposit()">Yükle</button>
   <button onclick="withdraw()">Çek</button>
 </div>
 
-<!-- Kupon ve toplam oran -->
+<!-- Kupon ve Toplam Oran -->
 <div class="footer">
   Toplam Oran: <span id="total">1.00</span>
   <button class="btn kuponBtn" onclick="playCoupon()">Kupon Yap</button>
 </div>
 
-<!-- Sonuç animasyonu -->
 <div id="result" class="resultBox"></div>
 
-<!-- Slot oyunu -->
+<!-- Mini Slot -->
 <div class="slotGame">
-  <h3>🎰 Slot Demo</h3>
+  <h3>🎰 Mini Slot</h3>
   <div id="slotReels">🍒 | 🍋 | ⭐</div>
   <button class="btn" onclick="spinSlot()">Spin</button>
 </div>
 
+<!-- Sweet Bonanza -->
+<div class="sweetBonanza">
+  <h3>🍭 Sweet Bonanza</h3>
+  <div id="sweetGrid" class="grid"></div>
+  <button class="btn" onclick="spinSweet()">Spin</button>
+</div>
+
+<!-- Dice Game -->
+<div class="diceGame">
+  <h3>🎲 Dice Game</h3>
+  <input type="number" id="diceGuess" placeholder="Tahmin (1-6)">
+  <button class="btn" onclick="rollDice()">Zar At</button>
+</div>
+
+<!-- Oyun Geçmişi -->
+<div class="historyDiv">
+  <h3>📜 Oyun Geçmişi</h3>
+  <ul id="historyList" class="historyList"></ul>
+</div>
+
 <script>
+// Genel bakiye
 let balance = 1000;
+let history = [];
+
+// 🏆 Bahis Seçimi
 let defaultStake = 100;
 let selectedOdds = [];
-
-// Oran seçimi
 function selectOdd(btn, odd){
   let matchDiv = btn.closest(".match");
   let matches = Array.from(document.querySelectorAll(".match"));
   let index = matches.indexOf(matchDiv);
 
   selectedOdds[index] = odd;
-
   matchDiv.querySelectorAll(".btn").forEach(b=>b.classList.remove("selected"));
   btn.classList.add("selected");
 
@@ -92,79 +108,144 @@ function selectOdd(btn, odd){
   document.getElementById("total").innerText = total.toFixed(2);
 }
 
-// Kupon oynama
 function playCoupon(){
   let inputStake = parseInt(document.getElementById("stakeInput").value);
-  let stake = (!isNaN(inputStake) && inputStake > 0) ? inputStake : defaultStake;
-
+  let stake = (!isNaN(inputStake)&&inputStake>0)? inputStake : defaultStake;
   let total = parseFloat(document.getElementById("total").innerText);
-  if(total === 1){ alert("Önce oran seç"); return; }
-  if(balance < stake){ alert("Yetersiz bakiye"); return; }
+  if(total===1){ alert("Önce oran seç"); return; }
+  if(balance<stake){ alert("Yetersiz bakiye"); return; }
 
-  balance -= stake;
+  balance-=stake;
   document.getElementById("balance").innerText = balance;
 
-  let win = Math.random() < 0.5; 
-  let box = document.getElementById("result");
+  let win=Math.random()<0.5;
+  let box=document.getElementById("result");
   if(win){
-    let winAmount = Math.floor(stake*total);
-    balance += winAmount;
+    let winAmount=Math.floor(stake*total);
+    balance+=winAmount;
     document.getElementById("balance").innerText = balance;
-    box.innerText = "🎉 KAZANDIN! +" + winAmount + " ₺";
-    box.className = "resultBox show win";
+    box.innerText="🎉 KAZANDIN! +"+winAmount+" ₺";
+    box.className="resultBox show win";
+    addHistory("Kupon", "Kazandı +" + winAmount + "₺");
   }else{
-    box.innerText = "❌ KAYBETTİN!";
-    box.className = "resultBox show lose";
+    box.innerText="❌ KAYBETTİN!";
+    box.className="resultBox show lose";
+    addHistory("Kupon", "Kaybetti -" + stake + "₺");
   }
+  setTimeout(()=>{box.className="resultBox";},2500);
 
-  setTimeout(()=>{ box.className="resultBox"; },2500);
-
-  selectedOdds = [];
+  selectedOdds=[];
   document.querySelectorAll(".btn").forEach(b=>b.classList.remove("selected"));
-  document.getElementById("total").innerText = "1.00";
-  document.getElementById("stakeInput").value = "";
+  document.getElementById("total").innerText="1.00";
+  document.getElementById("stakeInput").value="";
 }
 
-// Bakiye yükle
+// Bakiye
 function deposit(){
-  let amt = parseInt(document.getElementById("amount").value);
-  if(isNaN(amt) || amt <=0){ alert("Geçerli tutar gir"); return; }
-  balance += amt;
-  document.getElementById("balance").innerText = balance;
-  alert(amt + " ₺ yüklendi!");
-  document.getElementById("amount").value = "";
+  let amt=parseInt(document.getElementById("amount").value);
+  if(isNaN(amt)||amt<=0){ alert("Geçerli tutar gir"); return; }
+  balance+=amt;
+  document.getElementById("balance").innerText=balance;
+  alert(amt+" ₺ yüklendi!");
+  document.getElementById("amount").value="";
 }
-
-// Bakiye çek
 function withdraw(){
-  let amt = parseInt(document.getElementById("amount").value);
-  if(isNaN(amt) || amt <=0){ alert("Geçerli tutar gir"); return; }
-  if(amt > balance){ alert("Yetersiz bakiye"); return; }
-  balance -= amt;
-  document.getElementById("balance").innerText = balance;
-  alert(amt + " ₺ çekildi!");
+  let amt=parseInt(document.getElementById("amount").value);
+  if(isNaN(amt)||amt<=0){ alert("Geçerli tutar gir"); return; }
+  if(amt>balance){ alert("Yetersiz bakiye"); return; }
+  balance-=amt;
+  document.getElementById("balance").innerText=balance;
+  alert(amt+" ₺ çekildi!");
+  document.getElementById("amount").value="";
 }
 
-// Slot oyunu
-let symbols = ["🍒","🍋","⭐","🔔","7"];
+// Mini Slot
+let slotSymbols = ["🍒","🍋","⭐","🔔","7"];
 function spinSlot(){
-  if(balance < 10){ alert("Yetersiz bakiye!"); return; } // her spin 10 ₺
-  let reels = [];
+  if(balance<10){ alert("Yetersiz bakiye!"); return; }
+  balance-=10;
+  let reels=[];
   for(let i=0;i<3;i++){
-    let rand = symbols[Math.floor(Math.random()*symbols.length)];
+    let rand = slotSymbols[Math.floor(Math.random()*slotSymbols.length)];
     reels.push(rand);
   }
-  document.getElementById("slotReels").innerText = reels.join(" | ");
-
+  document.getElementById("slotReels").innerText=reels.join(" | ");
   if(reels[0]===reels[1] && reels[1]===reels[2]){
-    let win = 50; 
-    balance += win;
+    let win=50;
+    balance+=win;
     alert("🎉 Slot Kazandın: +" + win + " ₺");
-  }else{
-    balance -= 10; 
-    alert("Kaybettin! 10 ₺ düşüldü");
+    addHistory("Mini Slot", "Kazandı +" + win + "₺");
+  } else{
+    alert("Kaybettin! 10 ₺ düştü");
+    addHistory("Mini Slot", "Kaybetti -10₺");
   }
-  document.getElementById("balance").innerText = balance;
+  document.getElementById("balance").innerText=balance;
+}
+
+// Sweet Bonanza
+let sweetSymbols=["🍬","🍒","🍇","🍋","🍉"];
+function spinSweet(){
+  if(balance<10){ alert("Yetersiz bakiye!"); return; }
+  balance-=10;
+  let gridDiv=document.getElementById("sweetGrid");
+  gridDiv.innerHTML="";
+  let grid=[];
+  for(let i=0;i<25;i++){
+    let rand=sweetSymbols[Math.floor(Math.random()*sweetSymbols.length)];
+    grid.push(rand);
+    let cell=document.createElement("div");
+    cell.innerText=rand;
+    gridDiv.appendChild(cell);
+  }
+  let firstRow=grid.slice(0,5);
+  let win=false;
+  for(let i=0;i<3;i++){
+    if(firstRow[i]===firstRow[i+1] && firstRow[i+1]===firstRow[i+2]){
+      win=true; break;
+    }
+  }
+  if(win){
+    balance+=50; alert("🎉 Sweet Bonanza Kazandın: +50 ₺");
+    addHistory("Sweet Bonanza", "Kazandı +50₺");
+  } else{
+    alert("Kaybettin! 10 ₺ düştü");
+    addHistory("Sweet Bonanza", "Kaybetti -10₺");
+  }
+  document.getElementById("balance").innerText=balance;
+}
+
+// Dice Game
+function rollDice(){
+  let guess=parseInt(document.getElementById("diceGuess").value);
+  if(isNaN(guess)||guess<1||guess>6){ alert("1-6 arası tahmin gir"); return; }
+  if(balance<10){ alert("Yetersiz bakiye!"); return; }
+  balance-=10;
+  let roll=Math.floor(Math.random()*6)+1;
+  if(roll===guess){
+    balance+=60; alert("🎉 Zar Kazandın! Zar: "+roll);
+    addHistory("Dice Game", "Kazandı +60₺ (Zar:"+roll+")");
+  }else{
+    alert("Kaybettin! Zar: "+roll+" 10 ₺ düştü");
+    addHistory("Dice Game", "Kaybetti -10₺ (Zar:"+roll+")");
+  }
+  document.getElementById("balance").innerText=balance;
+}
+
+// Geçmiş
+function addHistory(game,result){
+  let entry={game:game,result:result,time:new Date().toLocaleTimeString()};
+  history.unshift(entry);
+  renderHistory();
+}
+
+function renderHistory(){
+  let list=document.getElementById("historyList");
+  list.innerHTML="";
+  history.forEach(h=>{
+    let li=document.createElement("li");
+    li.innerText=`[${h.time}] ${h.game}: ${h.result}`;
+    list.appendChild(li);
+  });
 }
 </script>
 
